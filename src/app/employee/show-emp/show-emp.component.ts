@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Data } from '@angular/router';
 import {Chart } from 'chart.js';
 import {SharedService} from 'src/app/shared.service';
@@ -101,16 +101,20 @@ export class ShowEmpComponent implements OnInit{
     this.ActivateAddEmpComp = true;
   }
 
+  deleteClick(item:any){
+    if(confirm('Delete?')){
+      this.service.deleteEmployee(item.EmployeeId).subscribe(data=>{
+          alert(data.toString());
+          this.refreshEmployeeList();
+      });
+    }
+  }
+
   closeClick(){
     this.ActivateAddEmpComp = false;
     this.refreshEmployeeList();
   }
-  deleteClick(item:any){
-    if(confirm('Delete?')){
-      this.service.deleteEmployee(item.EmployeeId);
-      this.refreshEmployeeList();
-    }
-  }
+ 
 
   refreshEmployeeList(){
     this.service.getEmpList().subscribe(data=>{

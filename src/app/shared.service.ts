@@ -19,7 +19,7 @@ readonly APIUrl="http://localhost:57141/api";
   }
 
   deleteEmployee(val:any){
-    return this.http.delete(this.APIUrl+'/FirstPage/',val);
+    return this.http.delete(this.APIUrl+'/FirstPage',val);
   }
 
 }
