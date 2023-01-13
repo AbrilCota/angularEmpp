@@ -135,7 +135,7 @@ export class ShowEmpComponent implements OnInit{
     var MaritalStatusFilter = this.MaritalStatusFilter;
 
     this.EmployeeList = this.EmployeeListWithoutFilter.filter(function (el){
-        return el.AttritionFilter.toString().toLowerCase().includes(
+        return el.Attrition.toString().toLowerCase().includes(
           AttritionFilter.toString().trim().toLowerCase()
         )
     });
