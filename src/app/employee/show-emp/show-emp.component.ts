@@ -28,77 +28,103 @@ export class ShowEmpComponent implements OnInit{
   MaritalStatusFilter:string="";
   EmployeeListWithoutFilter:any=[];
 
+  //Definition of variables for Chart
+  divorcedValue:any=[0];
+  divorcedLabel:any=['Divorced'];
+
+  marriedValue:any=[0];
+  marriedLabel:any=['Married'];
+
+  singleValue:any=[0];
+  singleLabel:any=['Single'];
+
+
   ngOnInit(): void {
     this.refreshEmployeeList();
+    //this.updateChart();
   }
-
   canvas: any;
   ctx: any;
-  all:Data;
   @ViewChild('mychart') mychart: any;
+  chartEx: any;
 
   ngAfterViewInit() {
-      this.canvas = this.mychart.nativeElement;
-      this.ctx = this.canvas.getContext('2d');
-      this.all = this.service.getEmpList().subscribe(data=>{this.EmployeeList.Age=data;});
-      new Chart(this.ctx, {
-          type: 'line',
-          data: {
-              datasets: [{
-                  label: 'Current Vallue',
-                  data: this.all,
-                  backgroundColor: "rgb(115 185 243 / 65%)",
-                  borderColor: "#007ee7",
-                  fill: true,
-              },
-              {
-                  label: 'Invested Amount',
-                  data: this.all,
-                  backgroundColor: "#47a0e8",
-                  borderColor: "#007ee7",
-                  fill: true,
-              }],
-              labels: ['January 2019', 'February 2019', 'March 2019', 'April 2019']
+    this.canvas = this.mychart.nativeElement;
+    this.ctx = this.canvas.getContext('2d');
+    this.chartEx = new Chart(this.ctx, {
+        type: 'bar',
+        data: {
+            datasets: [{
+                label:this.divorcedLabel,
+                data: this.divorcedValue,
+                backgroundColor: "#2b6777",
+                borderColor: "#007ee7",
+                fill: true,
+            },
+            {
+              label:this.marriedLabel,
+              data: this.divorcedValue,
+              backgroundColor: "#517f8c",
+              borderColor: "#007ee7",
+              fill: true,
           },
-      });
+          {
+            label:this.singleLabel,
+            data: this.divorcedValue,
+            backgroundColor: "#1c343b",
+            borderColor: "#007ee7",
+            fill: true,
+        }
+          ]
+        },
+    }); 
+  }
+ 
+  updateChart(){
+    this.chartEx.data.datasets[0].data = this.divorcedValue;
+    this.chartEx.data.datasets[1].data = this.marriedValue;
+    this.chartEx.data.datasets[2].data = this.singleValue;
+    this.chartEx.update();
   }
 
   addClick(){
     this.emp={
       EmployeeId:0,
       EmployeeCount:"",
-      Age:0,
+      Age:"",
       Attrition:"",
       BusinessTravel:"",
-      DailyRate:0,
+      DailyRate:"",
       Department:"",
-      DistanceFromHome:0,
-      Education:0,
+      DistanceFromHome:"",
+      Education:"",
       EducationField:"",
-      EmployeeNumber:0,
-      EnvironmentSatisfaction:0,
+      EmployeeNumber:"",
+      EnvironmentSatisfaction:"",
       Gender:"",
-      HourlyRate:0,
-      JobInvolvement:0,
-      JobLevel:0,
+      HourlyRate:"",
+      JobInvolvement:"",
+      JobLevel:"",
       JobRole:"",
       MaritalStatus:"",
-      MonthlyIncome:0,
-      MonthlyRate:0,
-      NumCompaniesWorked:0,
+      MonthlyIncome:"",
+      MonthlyRate:"",
+      NumCompaniesWorked:"",
       Over18:"",
       OverTime:"",
-      PerformanceRating:0,
-      RelationshipSatisfaction:0,
-      StandardHours:0,
-      StockOptionLevel:0,
-      TotalWorkingYears:0,
-      TrainingTimesLastYear:0,
-      WorkLifeBalance:0
+      PerformanceRating:"",
+      RelationshipSatisfaction:"",
+      StandardHours:"",
+      StockOptionLevel:"",
+      TotalWorkingYears:"",
+      TrainingTimesLastYear:"",
+      WorkLifeBalance:""
 
     }
     this.ModalTitle = "Add Employee";
     this.ActivateAddEmpComp = true;
+
+    
   }
 
   deleteClick(item:any){
@@ -113,17 +139,95 @@ export class ShowEmpComponent implements OnInit{
   closeClick(){
     this.ActivateAddEmpComp = false;
     this.refreshEmployeeList();
+
+  /* var countOfDivorce;
+    var countOfMarried;
+    var countOfSingle;
+
+    var emoloyeeManagement = this.EmployeeList;
+
+    countOfDivorce = emoloyeeManagement.filter(function(x){
+      return x.MaritalStatus == 'Divorced';
+      }).length;
+
+    countOfMarried = emoloyeeManagement.filter(function(x){
+      return x.MaritalStatus == 'Married';
+      }).length;
+
+      countOfSingle = emoloyeeManagement.filter(function(x){
+        return x.MaritalStatus == 'Single';
+        }).length;
+
+      this.divorcedValue=[countOfDivorce];
+      this.marriedValue=[countOfMarried];
+      this.singleValue = [countOfSingle];
+
+      this.chartEx.data.datasets[0].data = this.divorcedValue;
+      this.chartEx.data.datasets[1].data = this.marriedValue;
+      this.chartEx.data.datasets[2].data = this.singleValue;
+      this.chartEx.update(); */
   }
  
 
   refreshEmployeeList(){
+    var countOfDivorce;
+    var countOfMarried;
+    var countOfSingle;
     this.service.getEmpList().subscribe(data=>{
       this.EmployeeList=data;
       this.EmployeeListWithoutFilter=data;
+
+      countOfDivorce = data.filter(function(x){
+        return x.MaritalStatus == 'Divorced';
+        }).length;
+  
+      countOfMarried = data.filter(function(x){
+        return x.MaritalStatus == 'Married';
+        }).length;
+  
+      countOfSingle = data.filter(function(x){
+          return x.MaritalStatus == 'Single';
+          }).length;
+
+          this.divorcedValue=[countOfDivorce];
+          this.marriedValue=[countOfMarried];
+          this.singleValue = [countOfSingle];
+    
+          this.chartEx.data.datasets[0].data = this.divorcedValue;
+          this.chartEx.data.datasets[1].data = this.marriedValue;
+          this.chartEx.data.datasets[2].data = this.singleValue;
+
+          this.chartEx.update();
     });
+
+    //var refDivorce; 
+    //var refMarriage; 
+    //var refSingle; 
+
+   /* refDivorce = this.EmployeeList.filter(function(x){
+    return x.MaritalStatus == 'Divorced';
+    }).length;
+
+    refMarriage = this.EmployeeList.filter(function(x){
+    return x.MaritalStatus == 'Married';
+    }).length;
+
+    refSingle = this.EmployeeList.filter(function(x){
+    return x.MaritalStatus == 'Single';
+    }).length;
+
+    this.divorcedValue=[refDivorce];
+    this.marriedValue=[refMarriage];
+    this.singleValue = [refSingle];
+
+    this.chartEx.data.datasets[0].data = this.divorcedValue;
+    this.chartEx.data.datasets[1].data = this.marriedValue;
+    this.chartEx.data.datasets[2].data = this.singleValue;
+    this.chartEx.update(); */
   }
 
   FilterFn(){
+    
     var EmployeeIdFilter = this.EmployeeIdFilter;
     var AgeFilter = this.AgeFilter;
     var AttritionFilter = this.AttritionFilter;
@@ -134,11 +238,41 @@ export class ShowEmpComponent implements OnInit{
     var JobRoleFilter = this.JobRoleFilter;
     var MaritalStatusFilter = this.MaritalStatusFilter;
 
+    var countOfDivorce;
+    var countOfMarried;
+    var countOfSingle;
+
     this.EmployeeList = this.EmployeeListWithoutFilter.filter(function (el){
         return el.Attrition.toString().toLowerCase().includes(
           AttritionFilter.toString().trim().toLowerCase()
+        )&&
+        el.Age.toString().toLowerCase().includes(
+          AgeFilter.toString().trim().toLowerCase()
+        )&&
+        el.Department.toString().toLowerCase().includes(
+          DepartmentFilter.toString().trim().toLowerCase()
+        )&&
+        el.EducationField.toString().toLowerCase().includes(
+          EducationFieldFilter.toString().trim().toLowerCase()
         )
     });
+
+  countOfDivorce = this.EmployeeList.filter(function(x){
+      return x.MaritalStatus == 'Divorced';
+      }).length;
+
+  countOfMarried = this.EmployeeList.filter(function(x){
+    return x.MaritalStatus == 'Married';
+    }).length;
+
+  countOfSingle = this.EmployeeList.filter(function(x){
+    return x.MaritalStatus == 'Single';
+    }).length;
+
+    this.divorcedValue=[countOfDivorce];
+    this.marriedValue=[countOfMarried];
+    this.singleValue = [countOfSingle];
+    this.updateChart();
   }
 
   sortResult(prop,asc){

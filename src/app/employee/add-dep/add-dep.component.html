@@ -1,10 +1,18 @@
-<div class="form-froup row">
+<style>
+ #paddingButton {
+    padding: 20px;  
+  }
+
+</style>
+
+
+<div class="form-froup row" id="container1">
 
     <label class="col-sm-2 col-form-label">Employee Count</label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" [(ngModel)]="EmployeeCount"
-        placeholder = "Enter value">
-    </div>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" [(ngModel)]="EmployeeCount"
+            placeholder = "Enter value">
+        </div>
     <label class="col-sm-2 col-form-label">Age</label>
     <div class="col-sm-10">
         <input type="text" class="form-control" [(ngModel)]="Age"
@@ -145,9 +153,9 @@
         <input type="text" class="form-control" [(ngModel)]="WorkLifeBalance"
         placeholder = "Enter value">
     </div>
-
-    <button (click)="addEmployee()" *ngIf="emp.EmployeeId==0" class="btn btn-primary">
+    <div id="paddingButton">
+    <button (click)="addEmployee()" *ngIf="emp.EmployeeId==0" class="btn btn-secondary">
         Add
     </button>
-
+    </div>
 </div>

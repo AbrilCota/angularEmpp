@@ -1,19 +1,54 @@
-<div class="container">
+<style>
+  #container1 {
+      float:left; 
+  }
+  #dashTitle {
+      border-radius: 9px;
+      background: #c8d8e4;
+      padding: 20px; 
+      margin:20px;
+      
+  }
+  #empTitle {
+      border-radius: 9px;
+      background: #52ab98;
+      margin:20px;
+      color:white;
+      height:27px;
+      
+  }
+  #margination {
+      margin:20px;
+  }
+  #tableColor {
+      border-radius: 9px;
+      background: #c8d8e4;
+      width:3000px;
+  }
+  #widthFilter {
+      width:65px;
+  }
+  #widthLabel {
+      width:200px;
+  }
+</style>
+
+<div class="container" id = "dashTitle">
     <div style="width:100%;">
         <canvas id="myChart" width="700" height="250" #mychart></canvas>
      </div>
 </div>
 
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary float-right m-2" 
+<!-- Button Add Employee Drop View -->
+<div id = "margination">
+<button type="button" class="btn btn-secondary float-left m-2" 
 data-toggle="modal" data-target="#exampleModal"
 (click)="addClick()"
-data-backdrop = "static" data-keyboard="false"
->
+data-backdrop = "static" data-keyboard="false">
     Add Employee
-  </button>
-  
+</button>
+
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
@@ -34,6 +69,7 @@ data-backdrop = "static" data-keyboard="false"
     </div>
   </div>
 
+<div id="tableColor">
 <table class="table table-stripped">
     <thead>
         <tr>
@@ -53,8 +89,13 @@ data-backdrop = "static" data-keyboard="false"
             </button>
               </div>
               EmployeeId</th>
-            <th>Employee Count</th>
-            <th>Age</th>
+            <th  id = "widthLabel">Employee Count</th>
+            <th>
+              <div class="d-flex flex-row" id="widthFilter" >
+                <input [(ngModel)]="AgeFilter" class="form-control"
+                (keyup)="FilterFn()" placeholder="Filter">
+            </div>
+              Age</th>
             <th>
                 <div class="d-flex flex-row">
                     <input [(ngModel)]="AttritionFilter" class="form-control"
@@ -63,10 +104,20 @@ data-backdrop = "static" data-keyboard="false"
                 Attrition</th>
             <th>Business Travel</th>
             <th>Daily Rate</th>
-            <th>Department</th>
-            <th>Distance From Home</th>
+            <th>
+              <div class="d-flex flex-row">
+                <input [(ngModel)]="DepartmentFilter" class="form-control"
+                (keyup)="FilterFn()" placeholder="Filter">
+              </div>
+              Department</th>
+            <th  id = "widthLabel">Distance From Home</th>
             <th>Education</th>
-            <th>Education Field</th>
+            <th  id = "widthLabel">
+              <div class="d-flex flex-row">
+                <input [(ngModel)]="EducationFieldFilter" class="form-control"
+                (keyup)="FilterFn()" placeholder="Filter">
+              </div>
+              Education Field</th>
             <th>Employee Number</th>
             <th>Environment Satisfaction</th>
             <th>Gender</th>
@@ -132,3 +183,5 @@ data-backdrop = "static" data-keyboard="false"
         </tr>
     </tbody>
 </table>
+</div>
+</div>
